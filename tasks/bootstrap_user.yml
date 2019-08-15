@@ -1,7 +1,7 @@
 ---
 
 - name: Copy the bootstrap user management script
-  copy: src=manage_bootstrap_user.py dest={{ galaxy_server_dir }}/manage_bootstrap_user.py owner={{ galaxy_user_name }}
+  template: src=manage_bootstrap_user.py.j2 dest={{ galaxy_server_dir }}/manage_bootstrap_user.py owner={{ galaxy_user_name }}
 
 - name: Create Galaxy bootstrap user
   command: >

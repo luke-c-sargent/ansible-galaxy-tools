@@ -1,4 +1,25 @@
 ---
+- name: get Galaxy version from releases
+  local_action: shell ls {{ galaxy_server_dir }}/doc/source/releases | grep '[1-2][1-9]\.[0-1][0-9]\.rst' | sort -n -r | head -n 1 | cut -d'.' -f1,2
+  register: galaxy_installed_version
+  tags:
+    - get_galaxy_version
+
+- name: validate version check
+  set_fact:
+    checked_galaxy_version: ""
+  tags: 
+    - get_galaxy_version
+
+- name: validate version check pt. 2
+  set_fact:
+    checked_galaxy_version: "{{ galaxy_installed_version.stdout }}"
+  tags: 
+    - get_galaxy_version
+  when: 
+    - galaxy_installed_version.stdout is regex("[1-2][0-9]\.[0-1][0-9]")
+    - galaxy_installed_version.stderr == ""
+
 - name: Check ansible version
   fail:
     msg: "Installed ansible version {{ ansible_version.full }}, but ansible version > 2.1.1.1 required"
