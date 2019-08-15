@@ -1,6 +1,6 @@
 ---
 - name: get Galaxy version from releases
-  local_action: shell ls {{ galaxy_server_dir }}/doc/source/releases | grep '[1-2][1-9]\.[0-1][0-9]\.rst' | sort -n -r | head -n 1 | cut -d'.' -f1,2
+  shell: ls {{ galaxy_server_dir }}/doc/source/releases | grep '[1-2][1-9]\.[0-1][0-9]\.rst' | sort -n -r | head -n 1 | cut -d'.' -f1,2
   register: galaxy_installed_version
   tags:
     - get_galaxy_version
